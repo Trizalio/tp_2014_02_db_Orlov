@@ -7,7 +7,7 @@ DatabaseConnection::DatabaseConnection(QString sName)
     m_pConnection->setHostName("localhost");
     m_pConnection->setPort(3036);
     m_pConnection->setUserName("root");
-    m_pConnection->setPassword("qwerty");
+    m_pConnection->setPassword("3421Dark");
     m_pConnection->setDatabaseName("db_homework");
     if(!m_pConnection->isOpen())
     {
