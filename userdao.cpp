@@ -84,7 +84,7 @@ JMap UserDAO::UserDetails(QString sEmail)
 
     queryString1 = QString("SELECT follow_email FROM follows WHERE following_email = \"%1\" AND deleted = 0")
             .arg(sEmail);
-    qDebug() << queryString1;
+    //qDebug() << queryString1;
     if (query.exec(queryString1))
     {
         while(query.next())
@@ -118,7 +118,7 @@ JMap UserDAO::UpdateUser(QString sAbout, QString sEmail, QString sName)
             .arg(sAbout)
             .arg(sName)
             .arg(sEmail);
-    qDebug() << queryString1;
+    //qDebug() << queryString1;
     if(query.exec(queryString1))
     {
         return UserDetails(sEmail);
@@ -137,7 +137,7 @@ JMap UserDAO::FollowUser(QString userEmail, QString targetEmail)
             .arg(userEmail)
             .arg(targetEmail);
     QSqlError test;
-    qDebug() << queryString1;
+    //qDebug() << queryString1;
     if(query.exec(queryString1))
     {
         if(query.next())
@@ -147,7 +147,7 @@ JMap UserDAO::FollowUser(QString userEmail, QString targetEmail)
                queryString1 = QString("UPDATE follows SET deleted = 0 WHERE following_email = \"%1\" and follow_email = \"%2\"")
                        .arg(userEmail)
                        .arg(targetEmail);
-               qDebug() << queryString1;
+               //qDebug() << queryString1;
                if(!query.exec(queryString1))
                {
                    test = query.lastError();
@@ -160,7 +160,7 @@ JMap UserDAO::FollowUser(QString userEmail, QString targetEmail)
             queryString1 = QString("INSERT INTO follows(following_email, follow_email, deleted) VALUES (\"%1\", \"%2\", 0)")
                     .arg(userEmail)
                     .arg(targetEmail);
-            qDebug() << queryString1;
+            //qDebug() << queryString1;
             if(!query.exec(queryString1))
             {
                 test = query.lastError();
@@ -181,7 +181,7 @@ JMap UserDAO::UnFollowUser(QString sUserEmail, QString sFollowEmail)
             .arg(sUserEmail)
             .arg(sFollowEmail);
     QSqlError test;
-    qDebug() << queryString1;
+    //qDebug() << queryString1;
     if(!query.exec(queryString1))
     {
         test = query.lastError();
@@ -250,7 +250,7 @@ QVariantList  UserDAO::ListFollow(JMap input)
                 .arg(input.take("email").toString())
                 .arg(limit);
     }
-    qDebug() << queryString;
+    //qDebug() << queryString;
     if(query.exec(queryString))
     {
         while (query.next())
@@ -303,7 +303,7 @@ QVariantList  UserDAO::ListFollowers(JMap input)
                 .arg(input.take("email").toString())
                 .arg(limit);
     }
-    qDebug() << queryString;
+    //qDebug() << queryString;
     if(query.exec(queryString))
     {
         while (query.next())
