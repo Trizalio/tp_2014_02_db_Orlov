@@ -281,11 +281,6 @@ QVariantList PostDAO::ForumListUsers(JMap input)
                 .arg(since)
                 .arg(order)
                 .arg(limit);
-    /*QString queryString1 = QString("SELECT DISTINCT creator_email FROM Posts WHERE forum = \"%1\" AND creator_email in (SELECT email as FROM Users %2 %3) %4 ")
-            .arg(input.take("forum").toString())
-            .arg(since)
-            .arg(order)
-            .arg(limit);*/
     if(query.exec(queryString1))
     {
         while (query.next())

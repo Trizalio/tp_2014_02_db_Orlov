@@ -97,9 +97,6 @@ JMap UserDAO::UserDetails(QString sEmail)
 
     jmap.insert("id", user.m_nId);
     jmap.insert("isAnonymous", user.m_bIsAnonim);
-    //if(user.m_sName.isEmpty())
-      //  jmap.insert("name", QJsonValue::Null);
-    //else
         jmap.insert("name", user.m_sName);
     queryString1 = QString("SELECT thread_id FROM subscribe WHERE user_email = \"%1\" AND deleted = 0")
             .arg(sEmail);
@@ -110,9 +107,6 @@ JMap UserDAO::UserDetails(QString sEmail)
     }
     jmap.insert("subscriptions", follow_email);
     follow_email.clear();
-    //if(user.m_sUserName.isEmpty())
-      //  jmap.insert("username", QJsonValue::Null);
-    //else
         jmap.insert("username", user.m_sUserName);
     return jmap;
 }
