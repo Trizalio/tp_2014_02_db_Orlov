@@ -35,8 +35,8 @@ JMap PostDAO::Create(PPost post)
         post->m_nId = query.lastInsertId().toInt();
     else
     {
-        QSqlError temp = query.lastError();
-        jmap.insert("error" , temp.text());
+        QSqlError sqlError = query.lastError();
+        jmap.insert("error" , sqlError.text());
         return jmap;
     }
     jmap.insert("date", post->m_date.toString("YYYY-MM-DD hh-mm-ss"));
