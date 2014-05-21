@@ -237,25 +237,38 @@ QVariantList  UserDAO::ListFollowers(JMap input)
     QString where = "";
     QString limit = "";
     QSqlError test;
+    bool useJoin = false;
     if(input.contains("limit"))
     {
        limit = QString("LIMIT " + input.take("limit").toString());
     }
     if(input.contains("order"))
     {
-       order = QString("AND follow_email in (SELECT t1.email FROM Users as t1 JOIN Users as t2 on t1.name = t2.name ORDER BY t1.name " + input.take("order").toString() + " )");
+       useJoin = true;
+       order = QString("ORDER BY Users.name " + input.take("order").toString());
     }
     if(input.contains("since_id"))
     {
-       where =  QString("AND follow_email in (SELECT email from Users where id > " + input.take("since_id").toString() + " )");
+       useJoin = true;
+       where =  QString("AND Users.id > " + input.take("since_id").toString());
     }
     QSqlQuery query(QSqlDatabase::database("mysqlcon"));
-    QString queryString1 = QString("SELECT following_email FROM follows WHERE follow_email = \"%1\" %2 %3 %4")
-            .arg(input.take("email").toString())
-            .arg(where)
-            .arg(order)
-            .arg(limit);
-    if(query.exec(queryString1))
+    QString queryString;
+    if(useJoin){
+        queryString = QString("SELECT following_email\
+                                      FROM follows JOIN Users\
+                                      ON follows.following_email = Users.email\
+                                      WHERE follows.follow_email = \"%1\" AND follows.deleted = 0  %2 %3 %4")
+                .arg(input.take("email").toString())
+                .arg(where)
+                .arg(order)
+                .arg(limit);
+    }else{
+        queryString = QString("SELECT following_email FROM follows WHERE follow_email = \"%1\" AND deleted = 0  %2")
+                .arg(input.take("email").toString())
+                .arg(limit);
+    }
+    if(query.exec(queryString))
     {
         while (query.next())
         {
